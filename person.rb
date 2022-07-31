@@ -10,4 +10,8 @@ class Person
   def name
     @name
   end
+  
+  def age
+    @age
+  end
 end
