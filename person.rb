@@ -9,6 +9,7 @@ class Person
   end
 
   private
+  
   def of_age?
     @age >= 18
   end
