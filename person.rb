@@ -1,6 +1,8 @@
 class Person
   def initialize(age, name = 'Unknown', parent_permission = true)
-    @age, @name, @parent_permission = age, name, parent_permission
+    @age = age
+    @name = name
+    @parent_permission = parent_permission
   end
 
   def id
