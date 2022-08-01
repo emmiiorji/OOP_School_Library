@@ -1,3 +1,5 @@
-class Student
+require_relative 'person'
+
+class Student < Person
   #Code
 end
