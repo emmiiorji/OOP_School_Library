@@ -18,7 +18,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Install
 
-Run `git clone git@github.com:emmiiorji/school-library-app.git`
+Run `git clone git@github.com:emmiiorji/School_Library_App.git`
 
 ### Usage
 
