@@ -29,13 +29,14 @@ end
 
 class Person < Nameable
   attr_accessor :age, :name
-  attr_reader :id
+  attr_reader :id, rentals
 
   def initialize(age, name = 'Unknown', parent_permission: true)
     super()
     @age = age
     @name = name
     @parent_permission = parent_permission
+    @rentals = []
   end
 
   def can_use_services?
