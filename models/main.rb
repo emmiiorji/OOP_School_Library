@@ -1,3 +1,5 @@
+require_relative "./app.rb"
+
 def display_home_choices
   choices = [
     "List all books", "List all people", "Create a person", "Create a book",
