@@ -149,7 +149,7 @@ class App
     end
 
     person = @persons.filter { |person| person.id == person_id }
-    if person.length < 1
+    if person.empty?
       puts "No one with ID #{choice_person_index}."
       return
     end
