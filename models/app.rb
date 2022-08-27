@@ -18,7 +18,7 @@ class App
     puts 'Enter classroom label' unless label
     label ||= gets.chomp
     @classrooms.push(Classroom.new(label)) unless @classrooms.filter do |classroom|
-                                                    classroom.label === label
+                                                    classroom.label == label
                                                   end.length > 0
   end
 
@@ -49,7 +49,7 @@ class App
     name = gets.chomp
 
     print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp.downcase === 'y'
+    permission = gets.chomp.downcase == 'y'
     @persons.push(Student.new(age, @classrooms[0], name, parent_permission: permission))
     'Student created successfully'
   end
@@ -68,7 +68,7 @@ class App
     name = gets.chomp
 
     print 'Specialization: '
-    specialization = gets.chomp.downcase === 'y'
+    specialization = gets.chomp.downcase == 'y'
     @persons.push(Teacher.new(age, specialization, name))
     'Teacher created successfully'
   end
@@ -148,14 +148,14 @@ class App
       return
     end
 
-    person = @persons.filter { |person| person.id === person_id }
+    person = @persons.filter { |person| person.id == person_id }
     if person.length < 1
       puts "No one with ID #{choice_person_index}."
       return
     end
     puts "Rentals by #{person[0].name}:"
     rentals_by_person = rentals.filter do |rental|
-      rental.person.id === person_id
+      rental.person.id == person_id
     end
     rentals_by_person.each do |rental|
       puts "Date: #{rental.date}, Book: \"#{rental.book.name}\" by #{rental.book.author}"
