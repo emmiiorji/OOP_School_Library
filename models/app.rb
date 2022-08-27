@@ -137,4 +137,26 @@ class App
     end
     
   end
+
+  def get_rental_by_id
+    puts "ID of person: "
+    begin
+      person_id = Integer(gets.chomp)
+    rescue ArgumentError
+      puts "ID must be a valid integer"
+      return
+    end
+
+    person = @persons.filter { |person| person.id === person_id }
+    if person.length < 1
+      puts "No one with ID #{choice_person_index}."
+      return
+    end
+    puts "Rentals by #{person[0].name}:"
+    rentals.filter {
+      |rental| rental.person.id === person_id
+    }.each {
+      |rental| puts "Date: #{rental.date}, Book: \"#{rental.book.name}\" by #{rental.book.author}"
+    }
+  end
 end
