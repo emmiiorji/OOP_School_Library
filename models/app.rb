@@ -11,5 +11,12 @@ class App
     @books = []
     @rentals = []
     @classrooms = []
+    create_classrooms("Class1") #Create some classroom
+  end
+
+  def create_classrooms(label = nil)
+    puts "Enter classroom label" unless label
+    label = gets.chomp unless label
+    @classrooms.push(Classroom.new(label)) unless @classrooms.filter {|classroom| classroom.label === label}.length > 0
   end
 end
