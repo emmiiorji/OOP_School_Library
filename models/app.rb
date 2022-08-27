@@ -51,4 +51,23 @@ class App
     @persons.push(Student.new(age, @classrooms[0], name, parent_permission: permission))
     "Student created successfully"
   end
+
+  def create_teacher
+    begin
+      print "Age: "
+      age = Float(gets.chomp)
+    rescue ArgumentError
+      puts "Invalid value for age. Creating teacher was unsuccessful..."
+      return
+      #Return to the beginning
+    end
+
+    print "Name: "
+    name = gets.chomp
+
+    print "Specialization: "
+    specialization = gets.chomp.downcase === "y"
+    @persons.push(Teacher.new(age, specialization, name))
+    "Teacher created successfully"
+  end
 end
