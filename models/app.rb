@@ -90,4 +90,51 @@ class App
     puts "\nNo book found" if @books.empty?
     @books.each { |book| puts "Title: \"#{book.title}\", Author: #{book.author}"}
   end
+
+  def create_rental
+    puts "\n\nSelect a book from the following list by number"
+    @books.each_with_index { |book, index| puts "Title: \"#{book.title}\", Author: #{book.author}"}
+    puts "Choice book: "
+    begin
+      choice_book_index = Integer(gets.chomp)
+      unless (0...@books.length).member?(choice_book_index)
+        puts "No book with index #{choice_book_index}.\nCreating rental unsuccessful..."
+        return
+      end
+    rescue ArgumentError
+      puts "Invalid value for book index.\nCreating rental unsuccessful..."
+      return
+      #Return to the beginning
+    end
+    
+    puts "\n\nSelect a person from the following list by number (not id)"
+    @persons.each_with_index { |person, index|
+      puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    }
+    puts "Choice book: "
+    begin
+      choice_person_index = Integer(gets.chomp)
+      unless (0...@persons.length).member?(choice_person_index)
+        puts "No one with index #{choice_person_index}.\nCreating rental unsuccessful..."
+        return
+      end
+    rescue ArgumentError
+      puts "Invalid value for person index.\nCreating rental unsuccessful..."
+      return
+    end
+
+    puts "Date [YYYY/MM/DD]: "
+    rent_date = gets.chomp
+    begin
+      t_date = Time.strptime(rent_date, "%Y/%m/%d")
+      if (t_date.strftime("%Y/%m/%d"))
+        rentals.push(Rental.new(persons[choice_person_index, books[choice_book_index, rent_date]]))
+        puts "Rental created succssfully"
+      end
+    rescue ArgumentError
+      puts "Invalid value for date\nCreating rental was unsuccessful..."
+      return
+    end
+    
+  end
 end
