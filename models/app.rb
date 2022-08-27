@@ -154,9 +154,10 @@ class App
       return
     end
     puts "Rentals by #{person[0].name}:"
-    rentals.filter do |rental|
+    rentals_by_person = rentals.filter do |rental|
       rental.person.id === person_id
-    end.each do |rental|
+    end
+    rentals_by_person.each do |rental|
       puts "Date: #{rental.date}, Book: \"#{rental.book.name}\" by #{rental.book.author}"
     end
   end
