@@ -16,8 +16,10 @@ class App
 
   def create_classrooms(label = nil)
     puts 'Enter classroom label' unless label
-    label = gets.chomp unless label
-    @classrooms.push(Classroom.new(label)) unless @classrooms.filter {|classroom| classroom.label === label}.length > 0
+    label ||= gets.chomp
+    @classrooms.push(Classroom.new(label)) unless @classrooms.filter do |classroom|
+                                                    classroom.label === label
+                                                  end.length > 0
   end
 
   def create_person
@@ -30,7 +32,7 @@ class App
       create_teacher
     else
       puts 'You have made an invalid choice. Exiting...'
-      return
+      nil
     end
   end
 
@@ -83,12 +85,12 @@ class App
 
   def list_all_people
     puts "\nNo one found" if @persons.empty?
-    @persons.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"}
+    @persons.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
   end
 
   def list_all_books
     puts "\nNo book found" if @books.empty?
-    @books.each { |book| puts "Title: \"#{book.title}\", Author: #{book.author}"}
+    @books.each { |book| puts "Title: \"#{book.title}\", Author: #{book.author}" }
   end
 
   def create_rental
@@ -108,9 +110,9 @@ class App
     end
 
     puts "\n\nSelect a person from the following list by number (not id)"
-    @persons.each_with_index { |person, index|
+    @persons.each_with_index do |person, index|
       puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
-    }
+    end
     puts 'Choice book: '
     begin
       choice_person_index = Integer(gets.chomp)
@@ -133,7 +135,7 @@ class App
       end
     rescue ArgumentError
       puts "Invalid value for date\nCreating rental was unsuccessful..."
-      return
+      nil
     end
   end
 
@@ -152,10 +154,10 @@ class App
       return
     end
     puts "Rentals by #{person[0].name}:"
-    rentals.filter {
-      |rental| rental.person.id === person_id
-    }.each {
-      |rental| puts "Date: #{rental.date}, Book: \"#{rental.book.name}\" by #{rental.book.author}"
-    }
+    rentals.filter do |rental|
+      rental.person.id === person_id
+    end.each do |rental|
+      puts "Date: #{rental.date}, Book: \"#{rental.book.name}\" by #{rental.book.author}"
+    end
   end
 end
