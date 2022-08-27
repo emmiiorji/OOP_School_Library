@@ -80,4 +80,9 @@ class App
     @books.push(Book.new(title, author))
     puts "Book created successfully"
   end
+
+  def list_all_people
+    puts "\nNo one found" if @persons.empty?
+    @persons.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"}
+  end
 end
