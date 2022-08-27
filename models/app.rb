@@ -33,4 +33,22 @@ class App
       return
     end
   end
+
+  def create_student
+    begin
+      print "Age: "
+      age = Float(gets.chomp)
+    rescue ArgumentError
+      puts "Invalid value for age. Exiting..."
+      #Return to the beginning
+    end
+
+    print "Name: "
+    name = gets.chomp
+
+    print "Has parent permission? [Y/N]: "
+    permission = gets.chomp.downcase === "y"
+    @persons.push(Student.new(age, @classrooms[0], name, parent_permission: permission))
+    "Student created successfully"
+  end
 end
