@@ -10,6 +10,22 @@ def display_home_choices
   print 'Choice: '
 end
 
+def choices_map(app)
+  {
+
+    '1' => -> { app.list_all_books },
+    '2' => -> { app.list_all_people },
+    '3' => -> { app.create_person },
+    '4' => -> { app.create_book },
+    '5' => -> { app.create_rental },
+    '6' => -> { app.rental_by_id },
+    '7' => lambda {
+             puts "\nThank you for using this app. Bye!"
+             exit
+           }
+  }
+end
+
 def main
   puts "\nWelcome to School Library App!\n"
   display_home_choices
@@ -20,32 +36,14 @@ def main
   trials = 0
   loop do
     choice = gets.chomp
-    case choice
-    when '1'
-      app.list_all_books
-      display_home_choices
-    when '2'
-      app.list_all_people
-      display_home_choices
-    when '3'
-      app.create_person
-      display_home_choices
-    when '4'
-      app.create_book
-      display_home_choices
-    when '5'
-      app.create_rental
-      display_home_choices
-    when '6'
-      app.rental_by_id
-      display_home_choices
-    when '7'
-      puts "\nThank you for using this app. Bye!"
-      return
-    else
+    choices = choices_map(app)
+    if choices[choice].nil?
       trials += 1
       puts "You've entered an invalid character#{trials > 2 ? ' three times. Bye' : ''}!"
       print 'Choice: '
+    else
+      choices[choice].call
+      display_home_choices
     end
     break if trials > 2
   end
