@@ -1,7 +1,10 @@
+require 'time'
+
 require_relative './student'
 require_relative './teacher'
 require_relative './classroom'
 require_relative './rental'
+require_relative './book'
 
 class App
   attr_accessor :classrooms
@@ -11,15 +14,14 @@ class App
     @books = []
     @rentals = []
     @classrooms = []
-    create_classrooms('Class1') # Create some classroom
   end
 
   def create_classrooms(label = nil)
     puts 'Enter classroom label' unless label
     label ||= gets.chomp
-    @classrooms.push(Classroom.new(label)) unless @classrooms.filter do |classroom|
-                                                    classroom.label == label
-                                                  end.length > 0
+    @classrooms.push(Classroom.new(label)) if @classrooms.filter do |classroom|
+                                                classroom.label == label
+                                              end.empty?
   end
 
   def create_person
@@ -51,7 +53,7 @@ class App
     print 'Has parent permission? [Y/N]: '
     permission = gets.chomp.downcase == 'y'
     @persons.push(Student.new(age, @classrooms[0], name, parent_permission: permission))
-    'Student created successfully'
+    puts 'Student created successfully'
   end
 
   def create_teacher
@@ -70,7 +72,7 @@ class App
     print 'Specialization: '
     specialization = gets.chomp.downcase == 'y'
     @persons.push(Teacher.new(age, specialization, name))
-    'Teacher created successfully'
+    puts 'Teacher created successfully'
   end
 
   def create_book
@@ -93,54 +95,52 @@ class App
     @books.each { |book| puts "Title: \"#{book.title}\", Author: #{book.author}" }
   end
 
-  def create_rental
-    puts "\n\nSelect a book from the following list by number"
-    @books.each_with_index { |book, _index| puts "Title: \"#{book.title}\", Author: #{book.author}" }
-    puts 'Choice book: '
+  def confirm_item_index(index, group)
     begin
-      choice_book_index = Integer(gets.chomp)
-      unless (0...@books.length).member?(choice_book_index)
-        puts "No book with index #{choice_book_index}.\nCreating rental unsuccessful..."
-        return
+      choice_index = Integer(index)
+      unless (0...group.length).member?(choice_index)
+        puts "No book with index #{choice_index}.\nCreating rental unsuccessful..."
+        return -1
       end
     rescue ArgumentError
       puts "Invalid value for book index.\nCreating rental unsuccessful..."
-      return
+      return -1
       # Return to the beginning
     end
+    choice_index
+  end
+
+  def verify_date(date)
+    t_date = Time.strptime(date, '%Y/%m/%d')
+    return date if t_date.strftime('%Y/%m/%d')
+  rescue ArgumentError
+    puts "Invalid value for date\nCreating rental was unsuccessful..."
+    -1
+  end
+
+  def create_rental
+    puts "\n\nSelect a book from the following list by number"
+    @books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\", Author: #{book.author}" }
+    print 'Choice book: '
+    choice_book_index = confirm_item_index(gets.chomp, @books)
+    return if choice_book_index == -1
 
     puts "\n\nSelect a person from the following list by number (not id)"
     @persons.each_with_index do |person, index|
       puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
-    puts 'Choice book: '
-    begin
-      choice_person_index = Integer(gets.chomp)
-      unless (0...@persons.length).member?(choice_person_index)
-        puts "No one with index #{choice_person_index}.\nCreating rental unsuccessful..."
-        return
-      end
-    rescue ArgumentError
-      puts "Invalid value for person index.\nCreating rental unsuccessful..."
-      return
-    end
+    print 'Choice person: '
+    choice_person_index = confirm_item_index(gets.chomp, @persons)
+    return if choice_person_index == -1
 
     puts 'Date [YYYY/MM/DD]: '
-    rent_date = gets.chomp
-    begin
-      t_date = Time.strptime(rent_date, '%Y/%m/%d')
-      if t_date.strftime('%Y/%m/%d')
-        rentals.push(Rental.new(persons[choice_person_index, books[choice_book_index, rent_date]]))
-        puts 'Rental created succssfully'
-      end
-    rescue ArgumentError
-      puts "Invalid value for date\nCreating rental was unsuccessful..."
-      nil
-    end
+    rent_date = verify_date(gets.chomp)
+    @rentals.push(Rental.new(@persons[choice_person_index], @books[choice_book_index], rent_date))
+    puts 'Rental created succssfully'
   end
 
-  def get_rental_by_id
-    puts 'ID of person: '
+  def rental_by_id
+    print 'ID of person: '
     begin
       person_id = Integer(gets.chomp)
     rescue ArgumentError
@@ -148,12 +148,12 @@ class App
       return
     end
 
-    person = @persons.filter { |person| person.id == person_id }
-    if person.empty?
-      puts "No one with ID #{choice_person_index}."
+    selected_person = @persons.filter { |person| person.id == person_id }
+    if selected_person.empty?
+      puts "No one with ID #{person_id}."
       return
     end
-    puts "Rentals by #{person[0].name}:"
+    puts "Rentals by #{selected_person[0].name}:"
     rentals_by_person = rentals.filter do |rental|
       rental.person.id == person_id
     end
