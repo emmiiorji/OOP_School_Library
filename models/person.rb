@@ -37,6 +37,7 @@ class Person < Nameable
     @name = name
     @parent_permission = parent_permission
     @rentals = []
+    @id = ((rand * 100000) + (rand * 100000)).ceil
   end
 
   def can_use_services?
