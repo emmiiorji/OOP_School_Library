@@ -15,6 +15,7 @@ def main
   display_home_choices
 
   app = App.new
+  app.create_classrooms('Class1') # Create some classroom
 
   trials = 0
   loop do
@@ -36,7 +37,7 @@ def main
       app.create_rental
       display_home_choices
     when '6'
-      app.get_rental_by_id
+      app.rental_by_id
       display_home_choices
     when '7'
       puts "\nThank you for using this app. Bye!"
