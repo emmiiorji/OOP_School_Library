@@ -44,6 +44,7 @@ class App
       age = Float(gets.chomp)
     rescue ArgumentError
       puts 'Invalid value for age. Exiting...'
+      return
       # Return to the beginning
     end
 
@@ -154,11 +155,11 @@ class App
       return
     end
     puts "Rentals by #{selected_person[0].name}:"
-    rentals_by_person = rentals.filter do |rental|
+    rentals_by_person = @rentals.filter do |rental|
       rental.person.id == person_id
     end
     rentals_by_person.each do |rental|
-      puts "Date: #{rental.date}, Book: \"#{rental.book.name}\" by #{rental.book.author}"
+      puts "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}"
     end
   end
 end
