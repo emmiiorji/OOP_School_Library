@@ -1,27 +1,7 @@
 require_relative './nameable'
-
-class Decorator < Nameable
-  def initialize(nameable)
-    super()
-    @nameable = nameable
-  end
-
-  def correct_name
-    @nameable.correct_name
-  end
-end
-
-class CapitalizeDecorator < Decorator
-  def correct_name
-    @nameable.correct_name.capitalize
-  end
-end
-
-class TrimmerDecorator < Decorator
-  def correct_name
-    @nameable.correct_name[0..9]
-  end
-end
+require_relative './decorators/base_decorator.rb'
+require_relative './decorators/capitalize_decorator.rb'
+require_relative './decorators/trimmer_decorator.rb'
 
 class Person < Nameable
   attr_accessor :age, :name
