@@ -16,6 +16,11 @@ class App
     @classrooms = []
   end
 
+  def read_input(label_string)
+    puts "#{label_string}: "
+    gets.chomp
+  end
+
   def create_classrooms(label = nil)
     puts 'Enter classroom label' unless label
     label ||= gets.chomp
