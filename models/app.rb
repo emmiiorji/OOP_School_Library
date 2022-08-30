@@ -17,21 +17,19 @@ class App
   end
 
   def read_input(label_string)
-    puts "#{label_string}: "
+    print "#{label_string}: "
     gets.chomp
   end
 
   def create_classrooms(label = nil)
-    puts 'Enter classroom label' unless label
-    label ||= gets.chomp
+    label ||= read_input('Enter classroom label')
     @classrooms.push(Classroom.new(label)) if @classrooms.filter do |classroom|
                                                 classroom.label == label
                                               end.empty?
   end
 
   def create_person
-    print 'Do you want to create a student(1) or a teacher (2)? [Enter the number]: '
-    create_choice = gets.chomp
+    create_choice = read_input('Do you want to create a student(1) or a teacher (2)? [Enter the number]')
     case create_choice
     when '1'
       create_student
@@ -45,48 +43,40 @@ class App
 
   def create_student
     begin
-      print 'Age: '
-      age = Float(gets.chomp)
+      age = Float(read_input('Age'))
     rescue ArgumentError
       puts 'Invalid value for age. Exiting...'
       return
       # Return to the beginning
     end
 
-    print 'Name: '
-    name = gets.chomp
+    name = read_input('Name')
 
-    print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp.downcase == 'y'
+    permission = read_input('Has parent permission? [Y/N]').downcase == 'y'
     @persons.push(Student.new(age, @classrooms[0], name, parent_permission: permission))
     puts 'Student created successfully'
   end
 
   def create_teacher
     begin
-      print 'Age: '
-      age = Float(gets.chomp)
+      age = Float(read_input('Age'))
     rescue ArgumentError
       puts 'Invalid value for age. Creating teacher was unsuccessful...'
       return
       # Return to the beginning
     end
 
-    print 'Name: '
-    name = gets.chomp
+    name = read_input('Name')
 
-    print 'Specialization: '
-    specialization = gets.chomp.downcase == 'y'
+    specialization = read_input('Specialization')
     @persons.push(Teacher.new(age, specialization, name))
     puts 'Teacher created successfully'
   end
 
   def create_book
-    print 'Title: '
-    title = gets.chomp
+    title = read_input('Title')
 
-    print 'Author: '
-    author = gets.chomp
+    author = read_input('Author')
     @books.push(Book.new(title, author))
     puts 'Book created successfully'
   end
@@ -127,28 +117,24 @@ class App
   def create_rental
     puts "\n\nSelect a book from the following list by number"
     @books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\", Author: #{book.author}" }
-    print 'Choice book: '
-    choice_book_index = confirm_item_index(gets.chomp, @books)
+    choice_book_index = confirm_item_index(read_input('Choice book'), @books)
     return if choice_book_index == -1
 
     puts "\n\nSelect a person from the following list by number (not id)"
     @persons.each_with_index do |person, index|
       puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
-    print 'Choice person: '
-    choice_person_index = confirm_item_index(gets.chomp, @persons)
+    choice_person_index = confirm_item_index(read_input('Choice person'), @persons)
     return if choice_person_index == -1
 
-    puts 'Date [YYYY/MM/DD]: '
-    rent_date = verify_date(gets.chomp)
+    rent_date = verify_date(read_input('Date [YYYY/MM/DD]'))
     @rentals.push(Rental.new(@persons[choice_person_index], @books[choice_book_index], rent_date))
     puts 'Rental created succssfully'
   end
 
   def rental_by_id
-    print 'ID of person: '
     begin
-      person_id = Integer(gets.chomp)
+      person_id = Integer(read_input('ID of person'))
     rescue ArgumentError
       puts 'ID must be a valid integer'
       return
