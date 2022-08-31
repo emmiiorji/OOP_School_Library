@@ -7,7 +7,6 @@ def display_home_choices
   ]
   puts "\n\nPlease choose an action by entering the option number."
   choices.each_with_index { |choice, index| puts "#{index + 1} - #{choice}" }
-  print 'Choice: '
 end
 
 def choices_map(app)
@@ -35,12 +34,11 @@ def main
 
   trials = 0
   loop do
-    choice = gets.chomp
+    choice = app.read_input('Choice')
     choices = choices_map(app)
     if choices[choice].nil?
       trials += 1
       puts "You've entered an invalid character#{trials > 2 ? ' three times. Bye' : ''}!"
-      print 'Choice: '
     else
       choices[choice].call
       display_home_choices
