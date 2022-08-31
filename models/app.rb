@@ -47,7 +47,6 @@ class App
     rescue ArgumentError
       puts 'Invalid value for age. Exiting...'
       return
-      # Return to the beginning
     end
 
     name = read_input('Name')
@@ -63,7 +62,6 @@ class App
     rescue ArgumentError
       puts 'Invalid value for age. Creating teacher was unsuccessful...'
       return
-      # Return to the beginning
     end
 
     name = read_input('Name')
@@ -101,7 +99,6 @@ class App
     rescue ArgumentError
       puts "Invalid value for book index.\nCreating rental unsuccessful..."
       return -1
-      # Return to the beginning
     end
     choice_index
   end
