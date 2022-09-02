@@ -14,6 +14,7 @@ class App
     @books = []
     @rentals = []
     @classrooms = []
+    create_classrooms('Pogramming') # Create some classroom
   end
 
   def read_input(label_string)

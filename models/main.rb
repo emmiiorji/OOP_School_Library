@@ -30,7 +30,6 @@ def main
   display_home_choices
 
   app = App.new
-  app.create_classrooms('Class1') # Create some classroom
 
   trials = 0
   loop do
