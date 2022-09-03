@@ -5,6 +5,7 @@ require_relative './teacher'
 require_relative './classroom'
 require_relative './rental'
 require_relative './book'
+require_relative './storage'
 
 class App
   attr_accessor :classrooms
@@ -15,6 +16,15 @@ class App
     @rentals = []
     @classrooms = []
     create_classrooms('Pogramming') # Create some classroom
+  end
+
+  def quit
+    storage = Storage.new
+    storage.save_data(@persons, './save_instances/persons')
+    storage.save_data(@books, './save_instances/books')
+    storage.save_data(@rentals, './save_instances/rentals')
+    storage.save_data(@classrooms, './save_instances/classrooms')
+    exit
   end
 
   def read_input(label_string)
