@@ -29,14 +29,4 @@ class Person < Nameable
   def of_age?
     @age >= 18
   end
-
-  def to_hash
-    {
-      age: @age,
-      name: @name,
-      id: @id,
-      parent_permission: @parent_permission,
-      rentals: @rentals.map(&:to_hash)
-    }
-  end
 end

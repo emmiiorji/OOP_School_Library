@@ -12,12 +12,4 @@ class Student < Person
   def plan_hooky
     '¯\(ツ)/¯'
   end
-
-  def to_hash
-    classroom: @classroom.to_hash,
-    age: @age,
-    name: @name,
-    parent_permission: @parent_permission
-    rentals: @rentals.map(&:to_hash)
-  end
 end
