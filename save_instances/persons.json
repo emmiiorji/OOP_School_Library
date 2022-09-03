@@ -1,0 +1,17 @@
+[
+  {
+    "age": 23.0,
+    "name": "Emma",
+    "parent_permission": true,
+    "rentals": [
+
+    ],
+    "id": 72897,
+    "classroom": {
+      "label": "Pogramming",
+      "students": [
+        "#<Student:0x000001c14e9dcb58>"
+      ]
+    }
+  }
+]
