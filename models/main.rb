@@ -1,4 +1,5 @@
 require_relative './app'
+require_relative './storage'
 
 def display_home_choices
   choices = [
@@ -20,6 +21,7 @@ def choices_map(app)
     '6' => -> { app.rental_by_id },
     '7' => lambda {
              puts "\nThank you for using this app. Bye!"
+             app.quit
              exit
            }
   }
